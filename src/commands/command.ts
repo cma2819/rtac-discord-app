@@ -1,7 +1,7 @@
 import {
   ActionRowBuilder,
+  ChatInputCommandInteraction,
   Collection,
-  CommandInteraction,
   ModalActionRowComponentBuilder,
   ModalBuilder,
   ModalSubmitInteraction,
@@ -15,14 +15,18 @@ type CommandMeta = {
   description: string;
 };
 
+type CommandExecution = (
+  interaction: ChatInputCommandInteraction,
+) => Promise<void>;
+
 export type Command = {
   data: SlashCommandBuilder;
-  execute: (interaction: CommandInteraction) => Promise<void>;
+  execute: CommandExecution;
 };
 
 export const buildCommand = (
   meta: CommandMeta,
-  execute: (interaction: CommandInteraction) => Promise<void>,
+  execute: CommandExecution,
   cb?: (builder: SlashCommandBuilder) => void,
 ): Command => {
   const command = new SlashCommandBuilder()
@@ -99,4 +103,13 @@ export const provideModals = (
     }
     return acc;
   }, collection);
+};
+
+export const parseCustomId = (customId: string) => {
+  const [prefix, rest] = customId.split(':', 2);
+  const args = (rest as string | undefined)?.split('-');
+  return {
+    prefix,
+    args: args ?? [],
+  };
 };

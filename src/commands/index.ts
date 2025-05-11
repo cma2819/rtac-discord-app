@@ -1,7 +1,8 @@
-import { provideCommands, provideModals } from './command';
-import { SubmitCalendarModal } from './submit-calendar/modal';
-import { SubmitCalendarCommand } from './submit-calendar/command';
+import { SubmitCalendarCommand } from './calendar/command';
+import { provideCommands } from './command';
 
-export const CommandCollection = provideCommands([SubmitCalendarCommand]);
+export { handleCalendar } from './calendar/handler';
 
-export const ModalCollection = provideModals([SubmitCalendarModal]);
+export const CalendarCommandCollection = provideCommands([
+  SubmitCalendarCommand,
+]);

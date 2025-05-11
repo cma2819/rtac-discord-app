@@ -2,6 +2,15 @@
     "discord": {
         "token": "<Discord bot token>",
         "clientId": "<Discord client ID>",
-        "guildId": "<Discord guild ID>"
+        "guildId": "<Discord guild ID>",
+        "notificationChannelId": "<Discord channel ID for notifications>"
+    },
+    "google": {
+        "credentials": {
+            "serviceAccount": {
+                "keyFile": "<Path to credentials JSON file>"
+            }
+        },
+        "calendarId": "<Google Calendar ID>"
     }
 }

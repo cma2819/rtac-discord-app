@@ -1,10 +1,10 @@
 import { REST } from '@discordjs/rest';
 import { DiscordConfig } from './config/discord';
-import { CommandCollection } from './commands';
+import { CalendarCommandCollection } from './commands';
 import { Routes } from 'discord.js';
 import logger from './logger';
 
-const commands = CommandCollection.map((command) => {
+const commands = CalendarCommandCollection.map((command) => {
   return command.data.toJSON();
 });
 
