@@ -33,6 +33,7 @@ const makeCalendarEmbed = (
   input: Input,
   created: Event,
   type: 'submit' | 'edit',
+  author: string,
 ): EmbedBuilder => {
   const Messages = {
     submit: 'カレンダーを作成しました',
@@ -46,8 +47,9 @@ const makeCalendarEmbed = (
     .addFields(
       { name: '開始日', value: input.startAt, inline: true },
       { name: '終了日', value: input.endAt, inline: true },
-      { name: '詳細', value: input.details ?? '-' },
-    );
+      { name: '詳細', value: input.details || '-' },
+    )
+    .setFooter({ text: `${author} が操作` });
 
   return embed;
 };
@@ -127,7 +129,12 @@ export const SubmitCalendarModal = buildModal(
       DiscordConfig.notificationChannelId,
     );
     if (channel?.isSendable()) {
-      const embed = makeCalendarEmbed(input, calendarEvent, 'submit');
+      const embed = makeCalendarEmbed(
+        input,
+        calendarEvent,
+        'submit',
+        interaction.user.displayName,
+      );
       const notification = await channel.send({
         embeds: [embed],
         components: [makeComponents(calendarEvent)],
@@ -205,7 +212,12 @@ export const EditCalendarModal = async ({ event }: EditCalendarModalProps) => {
           DiscordConfig.notificationChannelId,
         );
         if (channel?.isSendable()) {
-          const embed = makeCalendarEmbed(input, calendarEvent, 'edit');
+          const embed = makeCalendarEmbed(
+            input,
+            calendarEvent,
+            'edit',
+            interaction.user.displayName,
+          );
           const notification = await channel.send({
             embeds: [embed],
             components: [makeComponents(calendarEvent)],
