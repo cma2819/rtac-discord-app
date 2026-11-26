@@ -2,29 +2,25 @@
   "name": "rtac-discord-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "register": "tsx src/register.ts",
-    "lint": "eslint src",
-    "start": "tsx src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "register": "tsx scripts/register.ts",
+    "typecheck": "tsc",
+    "lint": "eslint src scripts test",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "config": "^3.3.12",
-    "dayjs": "^1.11.13",
-    "discord.js": "^14.19.3",
-    "googleapis": "^148.0.0",
-    "winston": "^3.17.0",
-    "zod": "^3.24.4"
+    "discord-api-types": "^0.38.60",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261125.1",
     "@eslint/js": "^9.26.0",
     "@eslint/json": "^0.12.0",
-    "@types/config": "^3.3.5",
     "@types/node": "^22.15.12",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.2",
@@ -33,6 +29,9 @@
     "prettier": "3.5.3",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.0"
-  }
+    "typescript-eslint": "^8.32.0",
+    "vitest": "^5.1.2",
+    "wrangler": "^4.168.0"
+  },
+  "type": "module"
 }

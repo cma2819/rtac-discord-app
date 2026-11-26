@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rtac-discord-app",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "observability": {
+    "enabled": true,
+  },
+  // 環境変数はすべてシークレットとして設定する（README 参照）
+  //   DISCORD_APPLICATION_ID, DISCORD_PUBLIC_KEY, DISCORD_TOKEN,
+  //   DISCORD_NOTIFICATION_CHANNEL_ID, GOOGLE_CALENDAR_ID, GOOGLE_SERVICE_ACCOUNT_KEY
+}

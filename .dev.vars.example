@@ -1,0 +1,11 @@
+# ローカル開発用（`cp .dev.vars.example .dev.vars` して値を埋める）
+DISCORD_APPLICATION_ID=<Discord application ID>
+DISCORD_PUBLIC_KEY=<Discord application public key>
+DISCORD_TOKEN=<Discord bot token>
+DISCORD_NOTIFICATION_CHANNEL_ID=<Discord channel ID for notifications>
+GOOGLE_CALENDAR_ID=<Google Calendar ID>
+# サービスアカウントのキー JSON を 1 行で
+GOOGLE_SERVICE_ACCOUNT_KEY={"type":"service_account","client_email":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"}
+
+# npm run register 用（省略するとグローバルコマンドとして登録）
+DISCORD_GUILD_ID=<Discord guild ID>
