@@ -1,21 +1,40 @@
-import { Client, Events, GatewayIntentBits } from 'discord.js';
-import { DiscordConfig } from './config/discord';
-import logger from './logger';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import { handleCalendar } from './commands';
+import {
+  type APIInteraction,
+  InteractionResponseType,
+  InteractionType,
+} from 'discord-api-types/v10';
+import type { Env } from './env';
+import { verifyDiscordRequest } from './discord/verify';
+import { handleInteraction } from './calendar/handler';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Tokyo');
+const json = (body: unknown, init?: ResponseInit) => Response.json(body, init);
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+export default {
+  async fetch(request, env, ctx): Promise<Response> {
+    if (request.method !== 'POST') {
+      return new Response('Not Found', { status: 404 });
+    }
 
-client.once(Events.ClientReady, (readyClient) => {
-  logger.info(`Logged in as ${readyClient.user.tag}`);
-});
+    const body = await request.text();
+    const isValid = await verifyDiscordRequest(
+      body,
+      request.headers.get('X-Signature-Ed25519'),
+      request.headers.get('X-Signature-Timestamp'),
+      env.DISCORD_PUBLIC_KEY,
+    );
+    if (!isValid) {
+      return new Response('Bad request signature', { status: 401 });
+    }
 
-handleCalendar(client);
+    const interaction = JSON.parse(body) as APIInteraction;
+    if (interaction.type === InteractionType.Ping) {
+      return json({ type: InteractionResponseType.Pong });
+    }
 
-client.login(DiscordConfig.token);
+    const response = await handleInteraction(interaction, {
+      env,
+      waitUntil: (promise) => ctx.waitUntil(promise),
+    });
+    return json(response);
+  },
+} satisfies ExportedHandler<Env>;

@@ -1,11 +1,11 @@
-import { Dayjs } from 'dayjs';
-
 export type Event = {
   url: string;
   id: string;
   name: string;
-  startAt: Dayjs;
-  endAt: Dayjs;
+  /** 開始日 `yyyy-mm-dd` */
+  startDate: string;
+  /** 終了日 `yyyy-mm-dd`（この日を含む） */
+  endDate: string;
   details?: string;
 };
 
